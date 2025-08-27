@@ -95,7 +95,7 @@ An orca formation is a specification for an Orca pod's composition and supportin
 Orca formations may be uploaded to certain Orca nodes, including gates, to reconfigure pod
 structure at runtime.
 
-Orca notes may also be set to react according to an Orca formation specified in a shared record or
+Orca nodes may also be set to react according to an Orca formation specified in a shared record or
 database.
 
 ##### 2.1.4.1 - Format
