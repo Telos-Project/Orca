@@ -17,17 +17,15 @@ management between automated, independent, and intelligent agents.
 
 An Orca log is an append-only JSON-style list of Orca objects, listed in order of their insertion.
 
-Orca objects may have the fields "id", "source", "tags", "links" "properties", and "content". The
-ID field contains a string, or list thereof, specifying unique identifiers for the Orca object,
+Orca objects follow the format of [APInt](https://github.com/Telos-Project/APInt) utility objects.
+
+The properties object of an Orca object may have the fields "misc", which if present shall contain
+a value specifying miscellaneous information, "tags", operating in the manner specified by the
+APInt tags property protocol, and "meta", containing an object which may have the fields "id",
+"links", and "source".
+
+The ID field contains a string, or list thereof, specifying unique identifiers for the Orca object,
 which may be used alongside its index to identify the Orca object.
-
-The source field contains an object which may have the fields "author", containing a string
-specifying the entity which published the Orca object, and "time", specifying the time (ideally in
-milliseconds and in UNIX time) at which the Orca object was published.
-
-The tags field contains a string, or list thereof, specifying tags which denote the type of the
-Orca object, listed in order of their priority, with the highest priority tag denoting the primary
-type of the Orca object.
 
 The links field contains a list of Orca link objects, representing unidirectional connections from
 the Orca object to other Orca objects in the Orca log. An Orca link object has the field "target",
@@ -37,10 +35,11 @@ identified, only the first to be identified will be selected). An Orca link obje
 the field "properties", which contains a miscellaneous value specifying miscellaneous information
 about the Orca link object.
 
-The properties field contains a miscellaneous value specifying miscellaneous information about the
-Orca object.
+The source field contains an object which may have the fields "author", containing a string
+specifying the entity which published the Orca object, and "time", specifying the time (ideally in
+milliseconds and in UNIX time) at which the Orca object was published.
 
-The content field contains a miscellaneous value specifying the primary content of the Orca object.
+The source of content field of the Orca object shall specify the primary content of said object.
 
 ##### 2.1.1.2 - Orca Protocols
 
