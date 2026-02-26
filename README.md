@@ -41,6 +41,10 @@ milliseconds and in UNIX time) at which the Orca object was published.
 
 The source of content field of the Orca object shall specify the primary content of said object.
 
+Rather than a list, an Orca log may be represented as an APInt where each Orca object therein is a
+top-level utility, with its stringified index as its alias. For this purpose, an APInt which allows
+"logs" to be used in place of "utilities" may be used.
+
 ##### 2.1.1.2 - Orca Protocols
 
 A standardized convention for interpreting Orca objects, and lists thereof, is referred to as an
