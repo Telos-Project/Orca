@@ -42,8 +42,11 @@ milliseconds and in UNIX time) at which the Orca object was published.
 The source of content field of the Orca object shall specify the primary content of said object.
 
 Rather than a list, an Orca log may be represented as an APInt where each Orca object therein is a
-top-level utility, with its stringified index as its alias. For this purpose, an APInt which allows
-"logs" to be used in place of "utilities" may be used.
+utility with the tag "orca". The order of said objects shall be derived first from their index in
+their parent package, and then from the order that their parent packages are reached in a depth
+first traversal of the APInt they exist within. For this purpose, an APInt mask which allows
+"orders" to be used in place of "packages", and "logs" to be used in place of "utilities", may be
+used.
 
 ##### 2.1.1.2 - Orca Protocols
 
