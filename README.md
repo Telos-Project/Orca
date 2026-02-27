@@ -50,6 +50,11 @@ top-level utility, with its stringified index as its alias. For this purpose, an
 A standardized convention for interpreting Orca objects, and lists thereof, is referred to as an
 Orca protocol.
 
+##### 2.1.1.3 - Orca Order
+
+An Orca order is a standardized ordered sequence of Orca objects to be appended to a new or
+existing Orca log.
+
 #### 2.1.2 - Management
 
 Orca logs should be stored in a database accessible by a set of independent client processes which
@@ -73,13 +78,13 @@ The task protocol is a convention for task and note Orca objects.
 
 ###### 2.1.3.1.1 - Orca Tasks
 
-A task Orca object has the primary type tag "task", and its content is a string containing a
+A task Orca object has the primary type tag "orca-task", and its content is a string containing a
 command, specified in natural language, to be carried out collectively by the Orca pod.
 
 ###### 2.1.3.1.2 - Orca Notes
 
-A note Orca object has the primary type tag "note", and its content is a string containing a note,
-specified in natural language, specifying miscellaneous information about the state of the
+A note Orca object has the primary type tag "orca-note", and its content is a string containing a
+note, specified in natural language, specifying miscellaneous information about the state of the
 processes of the Orca pod.
 
 Codified conventions for interpreting any additional properties of Orca notes are referred to as
@@ -95,15 +100,13 @@ conventions.
 
 An orca formation is a specification for an Orca pod's composition and supporting cron jobs.
 
-Orca formations may be uploaded to certain Orca nodes, including gates, to reconfigure pod
+Orca formations may be appended as Orca objects to Orca logs to configure and reconfigure pod
 structure at runtime.
-
-Orca nodes may also be set to react according to an Orca formation specified in a shared record or
-database.
 
 ##### 2.1.4.1 - Format
 
-An Orca formation may be specified in a JSON object.
+An Orca formation may be specified in a JSON object, encoded in stringified form as the content of
+an Orca object with the primary type tag "orca-formation".
 
 Said object may have the fields "nodes", containing a list of node objects, and jobs, containing a
 list of job objects.
