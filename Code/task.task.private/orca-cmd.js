@@ -1,5 +1,5 @@
+var apint = use("apint");
 var busNet = use("bus-net");
-var fusionLISP = use("fusion-lisp/fusionLISP.js");
 var orcaUtils = use(`${process.cwd()}/telos/util.private/orca-utils.js`);
 
 let flag = false;
@@ -35,35 +35,31 @@ function onCommand(args) {
 
 	if(args[0] == "log-object") {
 
-		fusionLISP.run(`
-			(use "fusion-lisp" "telos-oql")
-			(return
-				(query
-					(append
-						${orcaUtils.loadQuery()}
-						(list
-							(: "content" ${JSON.stringify(args[1])})
-							(:
-								"properties"
-								(list
-									(: "tags" (list ${
-										args.slice(2).map(
-											item => JSON.stringify(item)
-										).join(" ")
-									}))
-								)
-							)
-						)
-					)
-				)
-			)
-		`).then(data => {
-			process.exit(0);
-		});
+		orcaUtils.logObject({
+			content: args[1],
+			properties: {
+				tags: args.slice(2)
+			}
+		}, () => { process.exit(0); });
 	}
 
 	if(args[0] == "log-order") {
-		// STUB
+
+		orcaUtils.logObjects(
+			apint.queryUtilities(
+				apint.buildAPInt(
+					JSON.parse(use("fs").readFileSync(args[1])),
+					{
+						packages: ["orders"],
+						utilities: ["logs"]
+					}
+				),
+				null,
+				(item) => {
+					return item.properties.tags.includes("orca");
+				}
+			), () => { process.exit(0); }
+		);
 	}
 
 	if(args[0] == "load-log") {
