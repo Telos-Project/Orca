@@ -119,10 +119,6 @@ Codified conventions for interpreting the properties of node objects are referre
 formation conventions. Nodes may be deployed as separate processes or as subprocesses of singular
 processes.
 
-The standard formation convention interprets the content of a node object as being a VSO file to
-overlay atop the telos folder of a [Telos Server](https://github.com/Telos-Project/Telos-Server)
-instance.
-
 The cron jobs in an Orca formation may be specified in Orca objects with the primary type tag
 "orca-job".
 
@@ -137,12 +133,8 @@ the call.
 If there is a conflict between any of the aforementioned Orca objects in an Orca log, priority
 shall be determined by the recency of their upload.
 
-##### 2.1.4.2 - Telos Agent
+##### 2.1.4.2 - Standard Formation Convention
 
-A Telos agent is a [Telos Origin](https://github.com/Telos-Project/Telos-Origin) based application
-which integrates [Telos Server](https://github.com/Telos-Project/Telos-Server) and may act as an
-Orca node and gate.
-
-To specify a Telos Agent using a node object, assign it the primary type tag "telos-agent", and use
-links to [VSF](https://github.com/Telos-Project/Virtual-System?tab=readme-ov-file#212---format)
-JSON files as its sources, which will be overlaid into a virtual system running within it.
+The standard formation convention interprets the content of a node object as being a VSO file to
+overlay atop the telos folder of a [Telos Server](https://github.com/Telos-Project/Telos-Server)
+instance.
