@@ -108,30 +108,34 @@ structure at runtime.
 
 ##### 2.1.4.1 - Format
 
-An Orca formation may be specified in a JSON object, encoded in stringified form as the content of
-an Orca object with the primary type tag "orca-formation".
+The Orca nodes in an Orca formation may be specified in Orca objects with the primary type tag
+"orca-node".
 
-Said object may have the fields "nodes", containing a list of node objects, and jobs, containing a
-list of job objects.
-
-Node objects represent Orca nodes within the pod, and have the field "node", containing an object
-which may have the fields "tags", containing a string, or list thereof, specifying tags which
-denote the type of the node, listed in order of their priority, with the highest priority tag
-denoting the primary type of the Orca object, and "source", containing a string, or list thereof,
-specifying paths to source content of the node.
-
-Node objects may also have the field "count", containing an integer number specifying how many of
-the specified node should be deployed into the pod. If the number is to represent a minimum instead
-of an exact count, it shall be encoded as a string instead of a number. Nodes may be deployed as
-separate processes or as subprocesses of singular processes.
+Such objects may have the property "count", containing an integer number specifying how many of the
+specified node should be deployed into the pod. If the number is to represent a minimum instead of
+an exact count, it shall be encoded as a string instead of a number.
 
 Codified conventions for interpreting the properties of node objects are referred to as Orca
-formation conventions.
+formation conventions. Nodes may be deployed as separate processes or as subprocesses of singular
+processes.
 
-Job objects represent cron jobs, and have the field "call", containing an HTTP request as an HTTP
-string or [HTTP JSON](https://github.com/Telos-Project/AutoCORS?tab=readme-ov-file#211---http-json)
-object, and the field "interval", containing null if the request is only to be sent once at
-startup, or a number specifying the time in seconds to wait before each repetition of the call.
+The standard formation convention interprets the content of a node object as being a VSO file to
+overlay atop the telos folder of a [Telos Server](https://github.com/Telos-Project/Telos-Server)
+instance.
+
+The cron jobs in an Orca formation may be specified in Orca objects with the primary type tag
+"orca-job".
+
+The content of such objects represent cron jobs shall contain an HTTP request as an HTTP
+string or a stringified [HTTP JSON](https://github.com/Telos-Project/AutoCORS?tab=readme-ov-file#211---http-json)
+object.
+
+Such objects may also have the property "interval", containing null if the request is only to be
+sent once at startup, or a number specifying the time in seconds to wait before each repetition of
+the call.
+
+If there is a conflict between any of the aforementioned Orca objects in an Orca log, priority
+shall be determined by the recency of their upload.
 
 ##### 2.1.4.2 - Telos Agent
 
