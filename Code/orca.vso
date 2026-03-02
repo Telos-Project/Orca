@@ -1,8 +1,31 @@
 {
 	"folders": {
-
-	},
-	"files": {
-		
+		"api.api": {
+			"files": {
+				"orca-config.js": {
+					"source": "https://raw.githubusercontent.com/Telos-Project/Orca/refs/heads/main/Code/api.api/orca-config.js"
+				},
+				"orca-task.js": {
+					"source": "https://raw.githubusercontent.com/Telos-Project/Orca/refs/heads/main/Code/api.api/orca-task.js"
+				}
+			}
+		},
+		"task.task.private": {
+			"files": {
+				"orca-cmd.js": {
+					"source": "https://raw.githubusercontent.com/Telos-Project/Orca/refs/heads/main/Code/task.task.private/orca-cmd.js"
+				},
+				"orca-monitor.js": {
+					"source": "https://raw.githubusercontent.com/Telos-Project/Orca/refs/heads/main/Code/task.task.private/orca-monitor.js"
+				}
+			}
+		},
+		"util.private": {
+			"files": {
+				"orca-utils.js": {
+					"source": "https://raw.githubusercontent.com/Telos-Project/Orca/refs/heads/main/Code/util.private/orca-utils.js"
+				}
+			}
+		}
 	}
 }

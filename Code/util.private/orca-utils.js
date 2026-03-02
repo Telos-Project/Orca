@@ -67,7 +67,29 @@ let orcaUtils = {
 			)
 		`).then(callback);
 	},
-	query: null
+	query: null,
+	queryToOrder: (data) => {
+		
+		return data.reduce((contents, item, index) => {
+
+			Object.keys(item).filter(
+				key => !["content", "source", "properties"].includes(key)
+			).forEach(key => { delete item[key]; });
+
+			item.properties =
+				item.properties != null ? item.properties : { };
+
+			item.properties.tags =
+				item.properties.tags != null ? item.properties.tags : [];
+
+			if(!item.properties.tags.includes("orca"))
+				item.properties.tags.push("orca");
+
+			contents.utilities[`${index}`] = item;
+
+			return contents;
+		}, { utilities: { } });
+	}
 };
 
 module.exports = orcaUtils;

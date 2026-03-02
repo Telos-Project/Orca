@@ -66,7 +66,18 @@ function onCommand(args) {
 
 		orcaUtils.loadLog(data => {
 
-			use("fs").writeFileSync(args[1], JSON.stringify(data, null, "\t"));
+			data = orcaUtils.queryToOrder(data);
+
+			if(args[1] == null)
+				console.log(JSON.stringify(data, null, "\t"));
+
+			else {
+
+				use("fs").writeFileSync(
+					args[1],
+					JSON.stringify(data, null, "\t")
+				);
+			}
 		
 			process.exit(0);
 		});
