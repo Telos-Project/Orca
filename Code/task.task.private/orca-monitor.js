@@ -143,7 +143,7 @@ function processTasks(tasks) {
 			catch(error) {
 				
 			}
-		});
+		}, orcaUtils.loadAI());
 	});
 }
 

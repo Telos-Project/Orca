@@ -21,6 +21,30 @@ let orcaUtils = {
 			})` :
 			JSON.stringify(item);
 	},
+	loadAI: () => {
+
+		try {
+
+			if(orcaUtils.ai != null)
+				return orcaUtils.ai;
+
+			orcaUtils.ai = JSON.parse(apint.queryUtilities(
+				busNet.call(
+					JSON.stringify({ tags: ["telos-configuration"] })
+				)[0].APInt,
+				null,
+				{
+					type: "orca-ai"
+				}
+			)[0].content);
+
+			return orcaUtils.ai;
+		}
+
+		catch(error) {
+			return { };
+		}
+	},
 	loadLog: (callback) => {
 
 		fusionLISP.run(`
