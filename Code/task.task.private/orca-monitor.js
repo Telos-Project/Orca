@@ -4,6 +4,10 @@ var busNet = use("bus-net");
 var orcaUtils = use(`${process.cwd()}/telos/util.private/orca-utils.js`);
 var virtualSystem = use("virtual-system");
 
+let template = autoCORS.read(
+	`${process.cwd()}/telos/util.private/orca-prompt.txt`
+);
+
 let interval = 1;
 let timestamp = null;
 
@@ -23,26 +27,21 @@ function checkInterval() {
 
 function getItems(log) {
 
-	let notes = getItemsByType(log, "orca-note");
+	log = log.map((item, index) => getItemProperties(item, index));
 
 	return {
-		nodes: getItemsByType(log, "orca-node").map(item => Object.assign(
-			getItemProperties(item),
-			{
-				count: item.properties?.count
-			}
-		)).filter(item => item.content != null && cache[item.id] == null),
+		nodes: getItemsByType(log, "orca-node").filter(
+			item => item.content != null && cache[item.id] == null
+		),
 		tasks: getItemsByType(log, "orca-task").map(item => Object.assign(
-			getItemProperties(item),
+			item,
 			{
-				notes: notes.filter(note =>
-					Array.isArray(note.properties?.meta?.links) ?
-						note.properties?.meta?.links.includes(item.id) :
-						false
-				)
+				notes: getItemsByType(getItemChildren(log, item), "orca-note")
 			}
 		)).filter(item =>
-			item.notes.filter(note => note.content != "COMPLETE").length == 0
+			item.notes.filter(
+				note => note?.properties?.misc?.status == "complete"
+			).length == 0
 		)
 	};
 }
@@ -56,7 +55,14 @@ function getItemsByType(log, type) {
 	);
 }
 
-function getItemProperties(item) {
+function getItemChildren(log, item) {
+
+	return log.filter(child => {
+		return child.links.filter(link => item.ids.includes(link)).length > 0;
+	});
+}
+
+function getItemProperties(item, index) {
 
 	return {
 		id: item._id.toString(),
@@ -64,7 +70,18 @@ function getItemProperties(item) {
 			item.content :
 			autoCORS.read(
 				Array.isArray(item.source) ? item.source[0] : item.source
-			)
+			),
+		properties: item.properties,
+		ids: [`${index}`, item._id.toString()].concat(
+			item.properties?.meta?.id != null ?
+				(Array.isArray(item.properties?.meta?.id) ?
+					item.properties?.meta?.id :
+					[item.properties?.meta?.id]
+				) :
+				[]
+		),
+		links: item.properties?.meta?.links != null ?
+			item.properties?.meta?.links : []
 	};
 }
 
@@ -96,7 +113,59 @@ function onInterval() {
 }
 
 function processTasks(tasks) {
-	// STUB
+
+	tasks.forEach(item => {
+
+		aiPing.ping(processTaskPrompt(item), (response) => {
+
+			try {
+
+				response = response.substring(
+					response.indexOf("{"), response.lastIndexOf("}") + 1
+				);
+
+				let data = JSON.parse(response);
+
+				orcaUtils.logObjects({
+					content: response,
+					properties: {
+						tags: ["orca-note"],
+						meta: {
+							links: [item.id]
+						},
+						misc: {
+							status: data.complete ? "complete" : "active"
+						}
+					}
+				});
+			}
+
+			catch(error) {
+				
+			}
+		});
+	});
+}
+
+function processTaskPrompt(task) {
+
+	let prompt = template.split("~");
+
+	prompt[1] = task.content;
+
+	if(task.notes.length > 0) {
+
+		prompt[2] = task.notes.map((item, index) => `- NOTE #${index} -\n\n${
+			item.content
+		}`).join("\n\n").split("\n").join("\n\t");
+	}
+
+	else {
+		prompt[2] = "";
+		prompt[3] = "";
+	}
+
+	return prompt.join("");
 }
 
 module.exports = () => {

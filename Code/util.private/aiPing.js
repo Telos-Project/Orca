@@ -1,11 +1,11 @@
-var autoCORS = use("telos-autocors");
+var autoCORS = require("telos-autocors");
 
 var aiPing = {
 	default: "hugging-face",
 	middleware: {
 		"hugging-face": {
 			default: "meta-llama/Meta-Llama-3-8B-Instruct",
-			ping: (text, history, callback, options) => {
+			ping: (log, callback, options) => {
 
 				return autoCORS.send({
 					request: {
@@ -27,7 +27,7 @@ var aiPing = {
 								content: "You are a helpful assistant."
 							}
 						].concat(
-							history.map(
+							log.map(
 								(item, index) => ({
 									role: index % 2 == 0 ?
 										"user" : "assistant",
@@ -52,16 +52,16 @@ var aiPing = {
 			}
 		}
 	},
-	ping(text, history, callback, options) {
+	ping(log, callback, options) {
 
-		history = history != null ? history : [];
+		log = Array.isArray(log) ? log : [log];
 		options = options != null ? options : { };
 
 		try {
 			
 			return aiPing.middleware[
 				options.service != null ? options.service : aiPing.default
-			].ping(text, history, callback, options);
+			].ping(log, callback, options);
 		}
 
 		catch(error) {

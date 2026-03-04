@@ -25,6 +25,9 @@
 				"aiPing.js": {
 					"source": "https://raw.githubusercontent.com/Telos-Project/Orca/refs/heads/main/Code/util.private/aiPing.js"
 				},
+				"orca-prompt.txt": {
+					"source": "https://raw.githubusercontent.com/Telos-Project/Orca/refs/heads/main/Code/util.private/orca-prompt.txt"
+				},
 				"orca-utils.js": {
 					"source": "https://raw.githubusercontent.com/Telos-Project/Orca/refs/heads/main/Code/util.private/orca-utils.js"
 				}

@@ -1,0 +1,33 @@
+Here is a task you are to directly aid in with your response:
+
+	~ TASK DESCRIPTION ~
+
+Here are updates and notes regarding the progress of said task from previous responses:
+
+	~
+	
+	DATE_TIME:
+
+		{
+			"request": null / "RAW_HTTP_STRING",
+			"text": null / "RAW_TEXT",
+			"note": null / "RAW_TEXT",
+			"complete": true / false
+		}
+
+	...
+		
+	~
+
+You may specify a note to log to the relevant notes, generated text to publish to the relevant updates, whether the task as of now or as of your next response is complete, and may optionally specify an HTTP request to send.
+
+Get as much done in your response as you can. If the task involves generating text, include said text in the text field your response. Use the note field to summarize what you did, as well as what remains to be done.
+
+Please respond with, and only with, this information in the form an uncommented JSON object using the following schema:
+
+	{
+		"request": null / "RAW_HTTP_STRING",
+		"text": null / "RAW_TEXT",
+		"note": null / "RAW_TEXT",
+		"complete": true / false
+	}
