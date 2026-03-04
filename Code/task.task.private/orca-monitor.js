@@ -151,7 +151,7 @@ function processTaskPrompt(task) {
 
 	let prompt = template.split("~");
 
-	prompt[1] = task.content;
+	prompt[1] = task.content.split("\n").join("\n\t");
 
 	if(task.notes.length > 0) {
 
