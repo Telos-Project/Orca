@@ -22,6 +22,9 @@
 		},
 		"util.private": {
 			"files": {
+				"aiPing.js": {
+					"source": "https://raw.githubusercontent.com/Telos-Project/Orca/refs/heads/main/Code/util.private/aiPing.js"
+				},
 				"orca-utils.js": {
 					"source": "https://raw.githubusercontent.com/Telos-Project/Orca/refs/heads/main/Code/util.private/orca-utils.js"
 				}

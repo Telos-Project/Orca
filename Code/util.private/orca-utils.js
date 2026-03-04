@@ -73,7 +73,9 @@ let orcaUtils = {
 		return data.reduce((contents, item, index) => {
 
 			Object.keys(item).filter(
-				key => !["content", "source", "properties"].includes(key)
+				key => ![
+					"content", "source", "properties", "_id"
+				].includes(key)
 			).forEach(key => { delete item[key]; });
 
 			item.properties =
@@ -81,6 +83,20 @@ let orcaUtils = {
 
 			item.properties.tags =
 				item.properties.tags != null ? item.properties.tags : [];
+
+			item.properties.meta =
+				item.properties.meta != null ? item.properties.meta : { };
+
+			item.properties.meta.id =
+				item.properties.meta.id != null ? item.properties.meta.id : [];
+
+			if(item._id != null) {
+
+				if(!item.properties.meta.id.includes(item._id.toString()))
+					item.properties.meta.id.push(item._id.toString());
+
+				delete item._id;
+			}
 
 			if(!item.properties.tags.includes("orca"))
 				item.properties.tags.push("orca");

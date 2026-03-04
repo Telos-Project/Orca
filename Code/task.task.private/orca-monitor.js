@@ -1,3 +1,4 @@
+var aiPing = use(`${process.cwd()}/telos/util.private/aiPing.js`);
 var autoCORS = use("telos-autocors");
 var busNet = use("bus-net");
 var orcaUtils = use(`${process.cwd()}/telos/util.private/orca-utils.js`);
@@ -20,31 +21,56 @@ function checkInterval() {
 	}
 }
 
-function getNodes(log) {
+function getItems(log) {
 
-	return log.filter(item => {
+	let notes = getItemsByType(log, "orca-note");
 
-		if(item.properties == null)
-			return false;
+	return {
+		nodes: getItemsByType(log, "orca-node").map(item => Object.assign(
+			getItemProperties(item),
+			{
+				count: item.properties?.count
+			}
+		)).filter(item => item.content != null && cache[item.id] == null),
+		tasks: getItemsByType(log, "orca-task").map(item => Object.assign(
+			getItemProperties(item),
+			{
+				notes: notes.filter(note =>
+					Array.isArray(note.properties?.meta?.links) ?
+						note.properties?.meta?.links.includes(item.id) :
+						false
+				)
+			}
+		)).filter(item =>
+			item.notes.filter(note => note.content != "COMPLETE").length == 0
+		)
+	};
+}
 
-		if(!Array.isArray(item.properties.tags))
-			return false;
+function getItemsByType(log, type) {
 
-		return item.properties.tags[0] == "orca-node";
-	}).map(item => ({
+	return log.filter(item =>
+		Array.isArray(item.properties?.tags) ?
+			item.properties.tags[0] == type :
+			false
+	);
+}
+
+function getItemProperties(item) {
+
+	return {
 		id: item._id.toString(),
 		content: item.content != null ?
 			item.content :
 			autoCORS.read(
 				Array.isArray(item.source) ? item.source[0] : item.source
-			),
-		count: item.properties != null ? item.properties.count : null
-	})).filter(item => item.content != null && cache[item.id] == null);
+			)
+	};
 }
 
-function loadNodes(log) {
+function loadNodes(nodes) {
 
-	getNodes(log).forEach(item => {
+	nodes.forEach(item => {
 
 		let path = `${process.cwd()}/telos/${item.id}.vso`.
 			split(":\\").join("://").split("\\").join("/")
@@ -54,15 +80,23 @@ function loadNodes(log) {
 		virtualSystem.setResource(path, item.content);
 	});
 
-	if(log.length > 0)
+	if(nodes.length > 0)
 		busNet.call(`{"tags":["telos-engine-refresh"]}`);
 }
 
 function onInterval() {
 	
 	orcaUtils.loadLog(log => {
-		loadNodes(log);
+
+		let items = getItems(log);
+
+		loadNodes(items.nodes);
+		processTasks(items.tasks);
 	});
+}
+
+function processTasks(tasks) {
+	// STUB
 }
 
 module.exports = () => {
