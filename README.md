@@ -38,8 +38,15 @@ The source or content field of the Orca object shall specify the primary content
 
 ##### 2.1.1.2 - Orca Protocols
 
-A standardized convention for interpreting Orca objects, and lists thereof, is referred to as an
+A standardized convention for interpreting Orca objects, and logs thereof, is referred to as an
 Orca protocol.
+
+###### 2.1.1.2.1 - Orca Ontology
+
+An Orca protocol for rendering information derived from an Orca log into a concise report,
+generally in APInt format, is referred to as an Orca ontology.
+
+Orca ontologies may be used to represent entity-relationship graphs.
 
 ##### 2.1.1.3 - Orca Order
 
