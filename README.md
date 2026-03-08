@@ -15,38 +15,26 @@ management between automated, independent, and intelligent agents.
 
 ##### 2.1.1.1 - Orca Log
 
-An Orca log is an append-only JSON-style list of Orca objects, listed in order of their insertion.
+An Orca log is an append-only list of Orca objects, listed in order of their insertion.
 
 Orca objects follow the format of [APInt](https://github.com/Telos-Project/APInt) utility objects.
 
-The properties object of an Orca object may have the fields "misc", which if present shall contain
-a value specifying miscellaneous information, "tags", operating in the manner specified by the
-APInt tags property protocol, and "meta", containing an object which may have the fields "id",
-"links", and "source".
+An Orca log may be represented as an APInt where each Orca object therein is a utility with the tag
+"orca". The order of said objects shall be derived first from their index in their parent package,
+and then from the order that their parent packages are reached in a depth first traversal of the
+APInt they exist within.
 
-The ID field contains a string, or list thereof, specifying unique identifiers for the Orca object,
-which may be used alongside its index to identify the Orca object.
+For this purpose, an APInt mask which allows "orders" to be used in place of "packages", and "logs"
+to be used in place of "utilities", may be used.
 
-The links field contains a list of Orca link objects, representing unidirectional connections from
-the Orca object to other Orca objects in the Orca log. An Orca link object has the field "target",
-containing a value, or list thereof, being numbers specifying the index, or strings specifying an
-ID, of a single target Orca object to which the connection points (where if multiple targets are
-identified, only the first to be identified will be selected). An Orca link object may also have
-the field "properties", which contains a miscellaneous value specifying miscellaneous information
-about the Orca link object.
+The alias of an Orca object should be the stringified index of its position in the list that the
+APInt it exists within represents. Orca objects may use the ID, links, and tags property protocols.
 
 The source field contains an object which may have the fields "author", containing a string
 specifying the entity which published the Orca object, and "time", specifying the time (ideally in
 milliseconds and in UNIX time) at which the Orca object was published.
 
-The source of content field of the Orca object shall specify the primary content of said object.
-
-Rather than a list, an Orca log may be represented as an APInt where each Orca object therein is a
-utility with the tag "orca". The order of said objects shall be derived first from their index in
-their parent package, and then from the order that their parent packages are reached in a depth
-first traversal of the APInt they exist within. For this purpose, an APInt mask which allows
-"orders" to be used in place of "packages", and "logs" to be used in place of "utilities", may be
-used.
+The source or content field of the Orca object shall specify the primary content of said object.
 
 ##### 2.1.1.2 - Orca Protocols
 
