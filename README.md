@@ -48,6 +48,14 @@ generally in APInt format, is referred to as an Orca ontology.
 
 Orca ontologies may be used to represent entity-relationship graphs.
 
+###### 2.1.1.2.2 - Orca Topology
+
+A relationship established between separate Orca logs via references between them, specifically
+references established by the usage of the links property protocol, may be referred to as an Orca
+topology.
+
+The Orca topology consisting of all Orca logs may be called the Orca Net.
+
 ##### 2.1.1.3 - Orca Order
 
 An Orca order is a standardized ordered sequence of Orca objects to be appended to a new or
