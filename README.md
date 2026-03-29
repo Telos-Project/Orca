@@ -30,9 +30,10 @@ to be used in place of "utilities", may be used.
 The alias of an Orca object should be the stringified index of its position in the list that the
 APInt it exists within represents. Orca objects may use the ID, links, and tags property protocols.
 
-The source field contains an object which may have the fields "author", containing a string
-specifying the entity which published the Orca object, and "time", specifying the time (ideally in
-milliseconds and in UNIX time) at which the Orca object was published.
+Orca objects may also have the property field "metadata", which contains an object that may have
+the fields "author", containing a string specifying the entity which published the Orca object, and
+"time", specifying the time (ideally in milliseconds and in UNIX time) at which the Orca object was
+published.
 
 The source or content field of the Orca object shall specify the primary content of said object.
 
