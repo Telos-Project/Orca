@@ -15,7 +15,8 @@ management between automated, independent, and intelligent agents.
 
 ##### 2.1.1.1 - Orca Log
 
-An Orca log is an append-only list of Orca objects, listed in order of their insertion.
+An Orca log is a list, which is append-only by default, of Orca objects, listed in order of their
+insertion.
 
 Orca objects follow the format of [APInt](https://github.com/Telos-Project/APInt) utility objects.
 
@@ -30,26 +31,45 @@ to be used in place of "utilities", may be used.
 The alias of an Orca object should be the stringified index of its position in the list that the
 APInt it exists within represents. Orca objects may use the ID, links, and tags property protocols.
 
-Orca objects may also have the property field "metadata", which contains an object that may have
-the fields "author", containing a string specifying the entity which published the Orca object, and
+The source or content field of the Orca object shall specify the primary content of said object.
+
+##### 2.1.1.2 - Orca Properties
+
+###### 2.1.1.2.1 - Metadata
+
+Orca objects may have the property field "metadata", which contains an object that may have the
+fields "author", containing a string specifying the entity which published the Orca object, and
 "time", specifying the time (ideally in milliseconds and in UNIX time) at which the Orca object was
 published.
 
-The source or content field of the Orca object shall specify the primary content of said object.
+###### 2.1.1.2.1 - Ephemeral
 
-##### 2.1.1.2 - Orca Protocols
+Orca objects may have the property field "ephemeral", which if present indicates that the object
+may be removed from the an Orca log to which it is appended, with the contents of said field
+detailing the conditions under which it may be removed. Orca objects with the ephemeral property
+are referred to as ephemeral.
+
+A standardized convention for interpreting the contents of said field with the conditions specified
+in said interpretation, is referred to as an Orca ephemeral protocol.
+
+The default Orca ephemeral protocol interprets the conditions for removal as arbitrary if the
+content of the ephemeral field is the boolean true, and, if the content of said field is a number,
+holding that said number specifies a millisecond timestamp in UNIX time, where removal is
+acceptable after said timestamp has been passed.
+
+##### 2.1.1.3 - Orca Protocols
 
 A standardized convention for interpreting Orca objects, and logs thereof, is referred to as an
 Orca protocol.
 
-###### 2.1.1.2.1 - Orca Ontology
+###### 2.1.1.3.1 - Orca Ontology
 
 An Orca protocol for rendering information derived from an Orca log into a concise report,
 generally in APInt format, is referred to as an Orca ontology.
 
 Orca ontologies may be used to represent entity-relationship graphs.
 
-###### 2.1.1.2.2 - Orca Topology
+###### 2.1.1.3.2 - Orca Topology
 
 A relationship established between separate Orca logs via references between them, specifically
 references established by the usage of the links property protocol, may be referred to as an Orca
@@ -57,7 +77,7 @@ topology.
 
 The Orca topology consisting of all Orca logs may be called the Orca Net.
 
-##### 2.1.1.3 - Orca Order
+##### 2.1.1.4 - Orca Order
 
 An Orca order is a standardized ordered sequence of Orca objects to be appended to a new or
 existing Orca log.
@@ -140,5 +160,5 @@ shall be determined by the recency of their upload.
 ##### 2.1.4.2 - Standard Formation Convention
 
 The standard formation convention interprets the content of a node object as being a VSO file to
-overlay atop the telos folder of a [Telos Server](https://github.com/Telos-Project/Telos-Server)
+overlay atop the telos folder of a [Telos Origin](https://github.com/Telos-Project/Telos-Origin)
 instance.
