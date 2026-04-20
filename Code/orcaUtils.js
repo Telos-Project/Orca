@@ -1,5 +1,3 @@
-var apint = use("apint");
-var busNet = use("bus-net");
 var fusionLISP = use("fusion-lisp/fusionLISP.js");
 
 let orcaUtils = {
@@ -21,66 +19,21 @@ let orcaUtils = {
 			})` :
 			JSON.stringify(item);
 	},
-	loadAI: () => {
-
-		try {
-
-			if(orcaUtils.ai != null)
-				return orcaUtils.ai;
-
-			orcaUtils.ai = JSON.parse(apint.queryUtilities(
-				busNet.call(
-					JSON.stringify({ tags: ["telos-configuration"] })
-				)[0].APInt,
-				null,
-				{
-					type: "orca-ai"
-				}
-			)[0].content);
-
-			return orcaUtils.ai;
-		}
-
-		catch(error) {
-			return { };
-		}
-	},
-	loadLog: (callback) => {
+	loadLog: (query, callback) => {
 
 		fusionLISP.run(`
 			(use "fusion-lisp" "telos-oql")
-			(return
-				(query
-					${orcaUtils.loadQuery()}
-				)
-			)
+			(return (query ${query}))
 		`).then(callback);
 	},
-	loadQuery: () => {
-
-		if(orcaUtils.query != null)
-			return orcaUtils.query;
-
-		orcaUtils.query = apint.queryUtilities(
-			busNet.call(
-				JSON.stringify({ tags: ["telos-configuration"] })
-			)[0].APInt,
-			null,
-			{
-				type: "orca-log"
-			}
-		)[0].content;
-
-		return orcaUtils.query;
-	},
-	logObjects: (items, callback) => {
+	logObjects: (query, items, callback) => {
 
 		fusionLISP.run(`
 			(use "fusion-lisp" "telos-oql")
 			(return
 				(query
 					(append
-						${orcaUtils.loadQuery()}
+						${query}
 						${
 							(Array.isArray(items) ? items : [items]).map(
 								item => orcaUtils.jsonToDynamic(item)
@@ -91,7 +44,6 @@ let orcaUtils = {
 			)
 		`).then(callback);
 	},
-	query: null,
 	queryToOrder: (data) => {
 		
 		return data.reduce((contents, item, index) => {

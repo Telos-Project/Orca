@@ -1,29 +1,15 @@
-var aiPing = use(`${process.cwd()}/telos/util.private/aiPing.js`);
-var autoCORS = use("telos-autocors");
-var busNet = use("bus-net");
-var orcaUtils = use(`${process.cwd()}/telos/util.private/orca-utils.js`);
-var virtualSystem = use("virtual-system");
+var aiUtils = require("./aiUtils.js");
+var apint = require("apint");
+var autoCORS = require("telos-autocors");
+var fs = require("fs");
+var orcaUtils = require("./orcaUtils.js");
+var path = require("path");
+var telosUtils = require("telos-origin/telosUtils.js");
+var virtualSystem = require("virtual-system");
 
-let template = autoCORS.read(
-	`${process.cwd()}/telos/util.private/orca-prompt.txt`
+let template = fs.readFileSync(
+	`${__dirname}${path.sep}orca-prompt.txt`, "utf-8"
 );
-
-let interval = 1;
-let timestamp = null;
-
-let cache = { };
-
-function checkInterval() {
-
-	timestamp = timestamp != null ? timestamp : (new Date()).getTime();
-
-	if((new Date()).getTime() >= timestamp + (interval * 1000)) {
-
-		timestamp = (new Date()).getTime();
-
-		onInterval();
-	}
-}
 
 function getItems(log) {
 
@@ -96,27 +82,13 @@ function loadNodes(nodes) {
 
 		virtualSystem.setResource(path, item.content);
 	});
-
-	if(nodes.length > 0)
-		busNet.call(`{"tags":["telos-engine-refresh"]}`);
 }
 
-function onInterval() {
-	
-	orcaUtils.loadLog(log => {
-
-		let items = getItems(log);
-
-		loadNodes(items.nodes);
-		processTasks(items.tasks);
-	});
-}
-
-function processTasks(tasks) {
+function processTasks(tasks, options) {
 
 	tasks.forEach(item => {
 
-		aiPing.ping(processTaskPrompt(item), (response) => {
+		aiUtils.ping(processTaskPrompt(item), (response) => {
 
 			try {
 
@@ -143,7 +115,7 @@ function processTasks(tasks) {
 			catch(error) {
 				
 			}
-		}, orcaUtils.loadAI());
+		}, options);
 	});
 }
 
@@ -168,6 +140,73 @@ function processTaskPrompt(task) {
 	return prompt.join("");
 }
 
-module.exports = () => {
-	checkInterval();
-};
+module.exports = [
+	telosUtils.createCommand("orca", (package, args) => {
+		telosUtils.initiateEngine();
+	}),
+	telosUtils.createCommand("log-object", (package, args) => {
+
+		orcaUtils.logObjects(
+			telosUtils.getArguments(package).options.pool,
+			{
+				content: args[0],
+				properties: {
+					tags: args.slice(2)
+				}
+			}
+		);
+	}),
+	telosUtils.createCommand("log-order", (package, args) => {
+
+		orcaUtils.logObjects(
+			telosUtils.getArguments(package).options.pool,
+			apint.queryUtilities(
+				apint.buildAPInt(
+					JSON.parse(fs.readFileSync(args[0])),
+					{
+						packages: ["orders"],
+						utilities: ["logs"]
+					}
+				),
+				null,
+				(item) => {
+					return item.properties.tags.includes("orca");
+				}
+			)
+		);
+	}),
+	telosUtils.createCommand("load-order", (package, args) => {
+
+		orcaUtils.loadLog(
+			telosUtils.getArguments(package).options.pool,
+			data => {
+
+				data = orcaUtils.queryToOrder(data);
+
+				if(telosUtils.getArguments(package).options.file == null)
+					console.log(JSON.stringify(data, null, "\t"));
+
+				else {
+
+					fs.writeFileSync(
+						telosUtils.getArguments(package).options.file,
+						JSON.stringify(data, null, "\t")
+					);
+				}
+			}
+		);
+	}),
+	telosUtils.createTask(1, false, (package) => {
+
+		orcaUtils.loadLog(log => {
+
+			let items = getItems(log);
+
+			loadNodes(items.nodes);
+
+			processTasks(
+				items.tasks, telosUtils.getArguments(package).options
+			);
+		});
+	})
+];

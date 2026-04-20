@@ -1,6 +1,6 @@
 var autoCORS = require("telos-autocors");
 
-var aiPing = {
+var aiUtils = {
 	default: "hugging-face",
 	middleware: {
 		"hugging-face": {
@@ -14,12 +14,12 @@ var aiPing = {
 							"https://router.huggingface.co/v1/chat/completions"
 					},
 					headers: {
-						"Authorization": `Bearer ${options.credentials.token}`,
+						"Authorization": `Bearer ${options.ai_token}`,
 						"Content-Type": "application/json"
 					},
 					body: JSON.stringify({
-						model: options.model != null ?
-							options.model :
+						model: options.ai_model != null ?
+							options.ai_model :
 							aiPing.middleware["hugging-face"].default,
 						messages: [
 							{
@@ -35,9 +35,9 @@ var aiPing = {
 								})
 							)
 						),
-						max_tokens: options.max_tokens,
-						temperature: options.temperature != null ?
-							options.temperature : 0.7
+						max_tokens: options.ai_max_tokens,
+						temperature: options.ai_temperature != null ?
+							options.ai_temperature : 0.7
 					})
 				}, callback != null ?
 					response => {
@@ -60,7 +60,8 @@ var aiPing = {
 		try {
 			
 			return aiPing.middleware[
-				options.service != null ? options.service : aiPing.default
+				options.ai_service != null ?
+					options.ai_service : aiPing.default
 			].ping(log, callback, options);
 		}
 
@@ -76,4 +77,4 @@ var aiPing = {
 	}
 };
 
-module.exports = aiPing;
+module.exports = aiUtils;
