@@ -42,7 +42,7 @@ fields "author", containing a string specifying the entity which published the O
 "time", specifying the time (ideally in milliseconds and in UNIX time) at which the Orca object was
 published.
 
-###### 2.1.1.2.1 - Ephemeral
+###### 2.1.1.2.2 - Ephemeral
 
 Orca objects may have the property field "ephemeral", which if present indicates that the object
 may be removed from the an Orca log to which it is appended, with the contents of said field
