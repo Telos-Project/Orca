@@ -7,6 +7,10 @@
 Orca, or Telos Orca, is an event streaming and logging convention for coordinating task and data
 management between automated, independent, and intelligent agents.
 
+Such networks of agents acting on shared tasks as a cohesive unit may be referred to as
+meta-agents, and the techniques used to facilitate said cohesion, such as Orca, may be referred to
+as meta-agent protocols.
+
 ## 2 - Contents
 
 ### 2.1 - Conventions
