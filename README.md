@@ -121,7 +121,23 @@ processes of the Orca pod.
 Codified conventions for interpreting any additional properties of Orca notes are referred to as
 Orca note conventions.
 
-##### 2.1.3.2 - Execution
+###### 2.1.3.1.3 - Orca References
+
+A reference Orca object has the primary type tag "orca-reference", and it may use its the links
+property protocol to connect to reference Orca objects in other Orca logs, thereby linking Orca
+logs into Orca topologies.
+
+##### 2.1.3.2 - Inheritance
+
+Given two Orca objects, specifically task and note objects, in an Orca log, for which there is a
+connection between them established using the links property protocol on either object, then unless
+otherwise specified, the object with the lower index in the log shall be considered the parent of
+the other.
+
+In this way, tasks may have sub-tasks and status notes, said statuses being indicated by tags
+assigned to said notes.
+
+##### 2.1.3.3 - Execution
 
 Tasks and notes are to be interpreted and executed by AI agents embedded in Orca nodes which map
 the content thereof to discrete tasks, according to codified conventions called Orca task
