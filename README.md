@@ -35,6 +35,11 @@ to be used in place of "utilities", may be used.
 The alias of an Orca object should be the stringified index of its position in the list that the
 APInt it exists within represents. Orca objects may use the ID, links, and tags property protocols.
 
+If an Orca object is stored in a system which assigns such objects additional properties
+automatically, said properties may be treated as properties of the object itself. If any of said
+properties serve as unique identifiers, the stringified forms of said properties may be treated as
+IDs of the object under the ID property protocol.
+
 The source or content field of the Orca object shall specify the primary content of said object.
 
 ##### 2.1.1.2 - Orca Properties
@@ -52,6 +57,10 @@ Orca objects may have the property field "ephemeral", which if present indicates
 may be removed from the an Orca log to which it is appended, with the contents of said field
 detailing the conditions under which it may be removed. Orca objects with the ephemeral property
 are referred to as ephemeral.
+
+If ephemeral objects are used in a given Orca log or topology, the ID property protocol should be
+used on all Orca objects within said collection to assign each of said objects a unique ID to serve
+as its alias rather than relying on its index, as said index may be prone to shifting.
 
 A standardized convention for interpreting the contents of said field with the conditions specified
 in said interpretation, is referred to as an Orca ephemeral protocol.
