@@ -77,10 +77,10 @@ Orca protocol.
 
 ###### 2.1.1.3.1 - Orca Ontology
 
-An Orca protocol for rendering information derived from an Orca log into a concise report,
-generally in APInt format, is referred to as an Orca ontology.
-
-Orca ontologies may be used to represent entity-relationship graphs.
+Orca logs may be used as evidence for the derivation of
+[general ontologies](https://github.com/Telos-Project/Bus-Net?tab=readme-ov-file#22---general-ontologies),
+especially
+[standard ontologies](https://github.com/Telos-Project/Bus-Net?tab=readme-ov-file#2212---standard-ontology).
 
 ###### 2.1.1.3.2 - Orca Topology
 
