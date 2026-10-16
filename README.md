@@ -204,6 +204,8 @@ ontology derived from the log to which it belongs.
 
 Such an APInt shall consist of non-nested utilities, each of which represents a node in the
 ontology, the alias of which is its name and the content of which is its description, using the
-links property protocol to establish connections between said nodes, where each element link object
-shall use the tags property protocol as an element link protocol, said element link object's
-properties object thus having a "tags" field containing a string specifying the connection's type.
+tags property protocol to establish the types of said nodes, where the "tags" field contains a
+string specifying said type, and using the links property protocol to establish connections between
+said nodes, where each element link object shall use the tags property protocol as an element link
+protocol, said element link object's properties object thus having a "tags" field containing a
+string specifying the connection's type.
