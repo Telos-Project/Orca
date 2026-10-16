@@ -191,3 +191,19 @@ shall be determined by the recency of their upload.
 The standard formation convention interprets the content of a node object as being a VSO file to
 overlay atop the telos folder of a [Telos Origin](https://github.com/Telos-Project/Telos-Origin)
 instance.
+
+#### 2.1.5 - Orca Artifacts
+
+Under the Orca artifact convention, an Orca note with the tag "orca-artifact" has content
+containing a string blob artifact.
+
+##### 2.1.5.1 - Ontology Artifacts
+
+An Orca artifact with the tag "orca-ontology" contains, as an APInt serialized in JSON, a standard
+ontology derived from the log to which it belongs.
+
+Such an APInt shall consist of non-nested utilities, each of which represents a node in the
+ontology, the alias of which is its name and the content of which is its description, using the
+links property protocol to establish connections between said nodes, where each element link object
+shall use the tags property protocol as an element link protocol, said element link object's
+properties object thus having a "tags" field containing a string specifying the connection's type.
